@@ -65,3 +65,72 @@ function(key, value) {
 # Code to start the REST server if desired:
 # pr <- plumber::plumb("run.R")
 # pr$run(port = 8000)
+
+#* @post /process_css
+function(req) {
+    
+    
+    
+    if (!(length(req$body) > 0 && !is.null(req$body[[1]]$name) && !is.null(req$body[[1]]$filename))) {
+        return(list(status = "error", message = "No se ha subido ningún archivo"))
+    }
+    file <- req$body[[1]]
+    # Crear el directorio "uploads" si no existe
+    uploads_dir <- "CSS"
+    if (!dir.exists(uploads_dir)) {
+        dir.create(uploads_dir)
+    }
+    
+    # Definir la ruta de destino para el archivo
+    destination <- file.path(uploads_dir, file$filename)
+    
+    # Mover el archivo desde el datapath temporal a la ruta de destino
+    writeBin(file$value, destination)
+    
+    return(list(status = "success"))
+}
+
+
+
+#* @post /upload_measpattern
+function(req) {
+   
+    save(req,file = "req.RData")
+    
+    if (!(length(req$body) > 0 && !is.null(req$body[[1]]$name) && !is.null(req$body[[1]]$filename))) {
+        return(list(status = "error", message = "No file uploaded."))
+    }
+    file <- req$body[[1]]
+    # Crear el directorio "uploads" si no existe
+    uploads_dir <- "measpattern"
+    if (!dir.exists(uploads_dir)) {
+        dir.create(uploads_dir)
+    }
+    
+
+    tmp <- tempfile(fileext = ".txt")
+
+     writeBin(file$value, tmp)
+
+     apm_object <- try(SeaSondeR::seasonder_readSeaSondeRAPMFile(tmp), silent = TRUE) 
+
+if(inherits(apm_object, "try-error")) {
+    
+    return(list(status = "error", message = "Error reading the APM file."))
+}
+    # Definir la ruta de destino para el archivo
+    destination <- file.path(uploads_dir, file$filename)
+    
+
+    file.copy(tmp, destination)
+    # Mover el archivo desde el datapath temporal a la ruta de destino
+   
+    
+    
+    update_configuration("measpattern_path", destination)
+
+
+
+    return(list(status = "success"))
+
+}
