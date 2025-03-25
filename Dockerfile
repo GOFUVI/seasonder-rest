@@ -8,8 +8,11 @@ RUN apt-get update && apt-get install -y libcurl4-openssl-dev libssl-dev libxml2
 COPY run.R /app/run.R
 WORKDIR /app
 
+ENV R_LIBS=/usr/local/lib/R/site-library
+
 # Install required R packages and remotes for GitHub installation
-RUN R -e "install.packages(c('plumber', 'yaml', 'remotes'), repos='https://cran.r-project.org')"
+RUN R -e "install.packages(c('plumber', 'yaml', 'remotes'), lib='/usr/local/lib/R/site-library', repos='https://cran.r-project.org')"
+
 
 # Install the SeaSondeR package from GitHub
 RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '0.2.5')"
@@ -18,4 +21,4 @@ RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '0.2.5')"
 EXPOSE 8000
 
 # Start the Plumber service to expose endpoints defined in run.R
-CMD ["R", "-e", "pr <- plumber::plumb('run.R'); pr$run(host='0.0.0.0', port=8000)"]
+CMD ["R", "--vanilla", "-e", "pr <- plumber::plumb('run.R'); pr$run(host='0.0.0.0', port=8000)"]
