@@ -20,5 +20,8 @@ RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '0.2.5')"
 # Expose the port for the plumber service
 EXPOSE 8000
 
+RUN Rscript -e "library(plumber)"
+
+
 # Start the Plumber service to expose endpoints defined in run.R
-CMD ["R", "--vanilla", "-e", "pr <- plumber::plumb('run.R'); pr$run(host='0.0.0.0', port=8000)"]
+CMD ["Rscript", "--vanilla", "-e", "pr <- plumber::plumb('run.R'); pr$run(host='0.0.0.0', port=8000)"]
