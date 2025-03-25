@@ -3,15 +3,16 @@ FROM rocker/r-ver:4.4.3
 # Install system dependencies (if required by some packages)
 RUN apt-get update && apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
 
-# Install required R packages and remotes for GitHub installation
-RUN R -e "install.packages(c('plumber', 'yaml', 'remotes'), repos='https://cran.r-project.org')"
-
-# Install the SeaSondeR package from GitHub
-RUN R -e "remotes::install_github('GOFUVI/SeaSondeR')"
 
 # Copy run.R to the container
 COPY run.R /app/run.R
 WORKDIR /app
+
+# Install required R packages and remotes for GitHub installation
+RUN R -e "install.packages(c('plumber', 'yaml', 'remotes'), repos='https://cran.r-project.org')"
+
+# Install the SeaSondeR package from GitHub
+RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '0.2.5')"
 
 # Expose the port for the plumber service
 EXPOSE 8000
