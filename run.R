@@ -56,9 +56,26 @@ update_configuration <- function(key, value, path = config_path) {
 
 process_css <- function(css_path, pattern_path, options){
 
+options <- read_configuration()
+
 seasonder_apm_obj <- SeaSondeR::seasonder_readSeaSondeRAPMFile(
-    here::here("tests/testthat/data/SUNS/MeasPattern.txt")
+    pattern_path
 )
+
+seasonder_cs_obj <- SeaSondeR::seasonder_createSeaSondeRCS(css_path, seasonder_apm_object = seasonder_apm_obj)
+
+
+
+  
+  seasonder_cs_obj %<>% SeaSondeR::seasonder_runMUSIC_in_FOR(doppler_interpolation = options$doppler_interpolation, options = list(PPMIN = options$PPMIN, PWMAX = options$PPMAX, smoothNoiseLevel = options$smoothNoiseLevel))
+
+
+
+rm_file <- tempfile(fileext = ".ruv")
+
+ radial_metrics <-SeaSondeR::seasonder_exportLLUVRadialMetrics(seasonder_cs_obj,rm_file)
+
+ return(rm_file)
 }
 
 #* @put /config
