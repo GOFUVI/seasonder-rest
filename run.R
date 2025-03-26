@@ -48,6 +48,12 @@ update_configuration <- function(key, value, path = config_path) {
     if (file.exists(path)) {
         user_config <- yaml::read_yaml(path)
     }
+    if(key == "MUSIC_parameters"){
+        value <- stringr::str_trim(unlist(strsplit(value, ",")))
+    }
+    if(key == "discard"){
+        value <- stringr::str_trim(unlist(strsplit(value, ",")))
+    }
     user_config[[key]] <- value
     save_configuration(user_config, path)
     cat(sprintf("The key '%s' has been updated to '%s'.\n", key, toString(value)))
@@ -59,9 +65,6 @@ if (!file.exists(default_config_path)) {
     }
 
 process <- function(css_path, options){
-
-css_path <- system.file("data/CSS_TORA_24_04_04_0700.cs", package = "SeaSondeR")
-
 
 
 
@@ -107,7 +110,7 @@ MUSIC_parameters = options$MUSIC_parameters
 rm_file <- tempfile(fileext = ".ruv")
 
  radial_metrics <-SeaSondeR::seasonder_exportLLUVRadialMetrics(seasonder_cs_obj,rm_file)
-cat(rm_file)
+
  return(rm_file)
 }
 
@@ -140,12 +143,12 @@ function(req) {
 
 
 options <- read_configuration()
-options$pattern_path <- system.file("data/MeasPattern.txt", package = "SeaSondeR")
+
 if(is.null(options$pattern_path)){
     return(list(status = "error", message = "No se ha subido ningún archivo de patrón"))
 }
 
-rm_file <- process(temp, options)
+rm_file <- process(tmp, options)
 
 readBin(rm_file, "raw", n = file.info(rm_file)$size)    
     
