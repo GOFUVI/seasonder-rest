@@ -53,6 +53,14 @@ update_configuration <- function(key, value, path = config_path) {
     cat(sprintf("The key '%s' has been updated to '%s'.\n", key, toString(value)))
 }
 
+
+process_css <- function(css_path, pattern_path, options){
+
+seasonder_apm_obj <- SeaSondeR::seasonder_readSeaSondeRAPMFile(
+    here::here("tests/testthat/data/SUNS/MeasPattern.txt")
+
+}
+
 #* @put /config
 #* @param key query string: configuration key to update
 #* @param value query string: new value for the option
@@ -75,17 +83,9 @@ function(req) {
         return(list(status = "error", message = "No se ha subido ningún archivo"))
     }
     file <- req$body[[1]]
-    # Crear el directorio "uploads" si no existe
-    uploads_dir <- "CSS"
-    if (!dir.exists(uploads_dir)) {
-        dir.create(uploads_dir)
-    }
-    
-    # Definir la ruta de destino para el archivo
-    destination <- file.path(uploads_dir, file$filename)
-    
-    # Mover el archivo desde el datapath temporal a la ruta de destino
-    writeBin(file$value, destination)
+    tmp <- tempfile()
+
+     writeBin(file$value, tmp)
     
     return(list(status = "success"))
 }
