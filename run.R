@@ -58,7 +58,7 @@ process_css <- function(css_path, pattern_path, options){
 
 css_path <- system.file("data/CSS_TORA_24_04_04_0700.cs", package = "SeaSondeR")
 pattern_path <- system.file("data/MeasPattern.txt", package = "SeaSondeR")
-options <- c(SeaSondeR:::seasonder_validateFOR_parameters())
+
 
 
 seasonder_apm_obj <- SeaSondeR::seasonder_readSeaSondeRAPMFile(
@@ -67,7 +67,7 @@ seasonder_apm_obj <- SeaSondeR::seasonder_readSeaSondeRAPMFile(
 
 seasonder_cs_obj <- SeaSondeR::seasonder_createSeaSondeRCS(css_path, seasonder_apm_object = seasonder_apm_obj)
 
-options <- c(SeaSondeR:::seasonder_validateFOR_parameters(seasonder_cs_obj, list()), SeaSondeR:::seasonder_defaultMUSIC_options())
+options <- c(SeaSondeR:::seasonder_validateFOR_parameters(seasonder_cs_obj, list()), SeaSondeR:::seasonder_defaultMUSIC_options(), list(COMPUTE_FOR = F))
 
 FOS <- list(
         nsm = as.integer(options$nsm),
@@ -86,8 +86,17 @@ FOS <- list(
 if(options$COMPUTE_FOR){
   seasonder_cs_obj <-  SeaSondeR::seasonder_computeFORs(seasonder_cs_obj, method = "SeaSonde")
 }
-  
-  seasonder_cs_obj <- SeaSondeR::seasonder_runMUSIC_in_FOR(seasonder_cs_obj, doppler_interpolation = options$doppler_interpolation, options = list(PPMIN = options$PPMIN, PWMAX = options$PPMAX, smoothNoiseLevel = options$smoothNoiseLevel))
+
+
+MUSIC_options <- list(PPMIN = options$PPMIN, 
+PWMAX = options$PPMAX, 
+smoothNoiseLevel = options$smoothNoiseLevel,
+discard = options$discard,
+doppler_interpolation = options$doppler_interpolation,
+MUSIC_parameters = options$MUSIC_parameters
+)
+
+  seasonder_cs_obj <- SeaSondeR::seasonder_runMUSIC_in_FOR(seasonder_cs_obj, options = MUSIC_options)
 
 
 
