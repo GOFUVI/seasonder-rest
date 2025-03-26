@@ -58,7 +58,7 @@ process_css <- function(css_path, pattern_path, options){
 
 seasonder_apm_obj <- SeaSondeR::seasonder_readSeaSondeRAPMFile(
     here::here("tests/testthat/data/SUNS/MeasPattern.txt")
-
+)
 }
 
 #* @put /config
