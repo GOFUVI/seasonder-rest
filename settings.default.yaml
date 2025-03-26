@@ -1,0 +1,21 @@
+nsm: 2.0
+fdown: 10.0
+flim: 100.0
+noisefact: 3.981072
+currmax: 2.0
+reject_distant_bragg: yes
+reject_noise_ionospheric: yes
+reject_noise_ionospheric_threshold: 0.0
+PPMIN: ~
+PWMAX: ~
+smoothNoiseLevel: no
+doppler_interpolation: 2.0
+MUSIC_parameters:
+- 40.0
+- 20.0
+- 2.0
+- 20.0
+discard:
+- low_SNR
+- no_solution
+COMPUTE_FOR: no

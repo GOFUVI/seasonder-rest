@@ -54,15 +54,19 @@ update_configuration <- function(key, value, path = config_path) {
 }
 
 
-process_css <- function(css_path, pattern_path, options){
+if (!file.exists(default_config_path)) {
+        config <- c(SeaSondeR:::seasonder_defaultFOR_parameters(), SeaSondeR:::seasonder_defaultMUSIC_options(), list(COMPUTE_FOR = F))
+    }
+
+process <- function(css_path, options){
 
 css_path <- system.file("data/CSS_TORA_24_04_04_0700.cs", package = "SeaSondeR")
-pattern_path <- system.file("data/MeasPattern.txt", package = "SeaSondeR")
+
 
 
 
 seasonder_apm_obj <- SeaSondeR::seasonder_readSeaSondeRAPMFile(
-    pattern_path
+    options$pattern_path
 )
 
 seasonder_cs_obj <- SeaSondeR::seasonder_createSeaSondeRCS(css_path, seasonder_apm_object = seasonder_apm_obj)
@@ -77,9 +81,9 @@ FOS <- list(
         currmax = as.numeric(options$currmax),
         reject_distant_bragg = as.logical(options$reject_distant_bragg),
         reject_noise_ionospheric = as.logical(options$reject_noise_ionospheric),
-        reject_noise_ionospheric_threshold = as.numeric(options$reject_noise_ionospheric_threshold,
+        reject_noise_ionospheric_threshold = as.numeric(options$reject_noise_ionospheric_threshold)
         )
-      )
+      
 
  seasonder_cs_obj <- SeaSondeR::seasonder_setFOR_parameters(seasonder_cs_obj, FOS)
 
@@ -103,7 +107,7 @@ MUSIC_parameters = options$MUSIC_parameters
 rm_file <- tempfile(fileext = ".ruv")
 
  radial_metrics <-SeaSondeR::seasonder_exportLLUVRadialMetrics(seasonder_cs_obj,rm_file)
-
+cat(rm_file)
  return(rm_file)
 }
 
@@ -131,16 +135,17 @@ function(req) {
     }
     file <- req$body[[1]]
     tmp <- tempfile()
+    
      writeBin(file$value, tmp)
 
 
 options <- read_configuration()
-
+options$pattern_path <- system.file("data/MeasPattern.txt", package = "SeaSondeR")
 if(is.null(options$pattern_path)){
     return(list(status = "error", message = "No se ha subido ningún archivo de patrón"))
 }
 
-rm_file <- process_css(temp, options)
+rm_file <- process(temp, options)
 
 readBin(rm_file, "raw", n = file.info(rm_file)$size)    
     
