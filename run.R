@@ -56,7 +56,10 @@ update_configuration <- function(key, value, path = config_path) {
 
 process_css <- function(css_path, pattern_path, options){
 
-options <- read_configuration()
+css_path <- system.file("data/CSS_TORA_24_04_04_0700.cs", package = "SeaSondeR")
+pattern_path <- system.file("data/MeasPattern.txt", package = "SeaSondeR")
+options <- c(SeaSondeR:::seasonder_validateFOR_parameters())
+
 
 seasonder_apm_obj <- SeaSondeR::seasonder_readSeaSondeRAPMFile(
     pattern_path
@@ -64,10 +67,27 @@ seasonder_apm_obj <- SeaSondeR::seasonder_readSeaSondeRAPMFile(
 
 seasonder_cs_obj <- SeaSondeR::seasonder_createSeaSondeRCS(css_path, seasonder_apm_object = seasonder_apm_obj)
 
+options <- c(SeaSondeR:::seasonder_validateFOR_parameters(seasonder_cs_obj, list()), SeaSondeR:::seasonder_defaultMUSIC_options())
 
+FOS <- list(
+        nsm = as.integer(options$nsm),
+        fdown = as.numeric(options$fdown),
+        flim = as.numeric(options$flim),
+        noisefact = as.numeric(options$noisefact),
+        currmax = as.numeric(options$currmax),
+        reject_distant_bragg = as.logical(options$reject_distant_bragg),
+        reject_noise_ionospheric = as.logical(options$reject_noise_ionospheric),
+        reject_noise_ionospheric_threshold = as.numeric(options$reject_noise_ionospheric_threshold,
+        )
+      )
 
+ seasonder_cs_obj <- SeaSondeR::seasonder_setFOR_parameters(seasonder_cs_obj, FOS)
+
+if(options$COMPUTE_FOR){
+  seasonder_cs_obj <-  SeaSondeR::seasonder_computeFORs(seasonder_cs_obj, method = "SeaSonde")
+}
   
-  seasonder_cs_obj %<>% SeaSondeR::seasonder_runMUSIC_in_FOR(doppler_interpolation = options$doppler_interpolation, options = list(PPMIN = options$PPMIN, PWMAX = options$PPMAX, smoothNoiseLevel = options$smoothNoiseLevel))
+  seasonder_cs_obj <- SeaSondeR::seasonder_runMUSIC_in_FOR(seasonder_cs_obj, doppler_interpolation = options$doppler_interpolation, options = list(PPMIN = options$PPMIN, PWMAX = options$PPMAX, smoothNoiseLevel = options$smoothNoiseLevel))
 
 
 
