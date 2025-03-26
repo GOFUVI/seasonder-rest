@@ -7,7 +7,7 @@ WORKDIR /app
 
 
 # Install required R packages and remotes for GitHub installation
-RUN R -e "install.packages(c('remotes','yaml'), repos='https://cran.r-project.org')"
+RUN R -e "install.packages(c('yaml'), repos='https://cran.r-project.org')"
 
 
 # Install the SeaSondeR package from GitHub
