@@ -121,6 +121,7 @@ function(key, value) {
 # pr$run(port = 8000)
 
 #* @post /process_css
+#* @serializer contentType list(type="text/plain")
 function(req) {
     
     
@@ -130,15 +131,25 @@ function(req) {
     }
     file <- req$body[[1]]
     tmp <- tempfile()
-
      writeBin(file$value, tmp)
+
+
+options <- read_configuration()
+
+if(is.null(options$pattern_path)){
+    return(list(status = "error", message = "No se ha subido ningún archivo de patrón"))
+}
+
+rm_file <- process_css(temp, options)
+
+readBin(rm_file, "raw", n = file.info(rm_file)$size)    
     
-    return(list(status = "success"))
+    
 }
 
 
 
-#* @post /upload_measpattern
+#* @post /upload_pattern
 function(req) {
    
     save(req,file = "req.RData")
@@ -148,7 +159,7 @@ function(req) {
     }
     file <- req$body[[1]]
     # Crear el directorio "uploads" si no existe
-    uploads_dir <- "measpattern"
+    uploads_dir <- "pattern"
     if (!dir.exists(uploads_dir)) {
         dir.create(uploads_dir)
     }
@@ -173,7 +184,7 @@ if(inherits(apm_object, "try-error")) {
    
     
     
-    update_configuration("measpattern_path", destination)
+    update_configuration("pattern_path", destination)
 
 
 
