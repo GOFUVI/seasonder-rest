@@ -1,6 +1,9 @@
-FROM rstudio/plumber
+FROM rstudio/plumber:v1.2.0
 
 
+COPY SeaSondeR.tar.gz /SeaSondeR.tar.gz
+
+RUN R -e "remotes::install_local('SeaSondeR.tar.gz', lib = '/usr/local/lib/R/site-library')"
 
 WORKDIR /app
 
@@ -11,7 +14,9 @@ RUN R -e "install.packages(c('yaml'), repos='https://cran.r-project.org')"
 
 
 # Install the SeaSondeR package from GitHub
-RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '0.2.5', lib = '/usr/local/lib/R/site-library')"
+
+
+
 
 
 # Copy run.R to the container
