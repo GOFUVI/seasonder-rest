@@ -2,6 +2,10 @@ name: ci
 
 on:
   push:
+    paths:
+      - Dockerfile
+      - Run.R
+      - SeaSondeR.tar.gz
 
 jobs:
   docker:
