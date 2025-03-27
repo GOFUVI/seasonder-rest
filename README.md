@@ -26,10 +26,33 @@ You can either build the Docker image locally or pull the pre-built image from D
   docker pull gofuvi/seasonder-rest:latest
   ```
 
+### Running the Server
+Once the Docker image is built or downloaded, you can run the server using the following command:
+
+```bash
+docker run -p <host_port>:8000 gofuvi/seasonder-rest:latest
+```
+
+Replace `<host_port>` with the desired port on your host machine. For example, to run the server on port 8080:
+
+```bash
+docker run -p 8080:8000 gofuvi/seasonder-rest:latest
+```
+
+The server will now be accessible at `http://localhost:<host_port>`.
+
 ## Scripts & Help
 ### Description of Scripts
 - **configure_seasonder.sh**: Updates server configuration via the `/config` endpoint and uploads a pattern file via the `/upload_pattern` endpoint.
 - **process_files.sh**: Processes `.css`, `.cs4`, and `.csr` files by sending them to the `/process_css` endpoint, then renames the output to a `.ruv` file.
+
+> **Note**: If you run the Docker image using a port other than 8000 (e.g., `docker run -p 8080:8000`), make sure to specify the correct port in the `-p` or `-s` options of the scripts. For example:
+> ```bash
+> ./configure_seasonder.sh -p 8080
+> ./process_files.sh -p 8080
+> ```
+
+> **Important**: When using the `configure_seasonder.sh` script to update the configuration, all existing configuration values on the server will be overwritten. Ensure you provide all necessary configuration options when running the script. Parameters not supplied as options will be reset to their default values.
 
 Both scripts support a help flag `-h` to display usage instructions.
 
