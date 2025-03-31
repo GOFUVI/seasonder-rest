@@ -15,7 +15,7 @@
 7. [run.R Script Explanation](#runr-script-explanation)
 
 ## Introduction
-This repository provides a REST API and configuration management for the SeaSondeR package. It facilitates updating settings, processing input files, and serving computed radial metrics via a set of HTTP endpoints.
+This repository provides a Docker Image to build a container with the [SeaSondeR package](https://github.com/GOFUVI/SeaSondeR) preinstaled, along with a REST API and configuration management for the SeaSondeR package. It facilitates updating settings, processing input files, and serving computed radial metrics via a set of HTTP endpoints.
 
 ## Installation
 You can either build the Docker image locally or pull the pre-built image from Docker Hub.
