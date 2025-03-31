@@ -139,7 +139,9 @@ process <- function(css_path, options){
         MUSIC_parameters = options$MUSIC_parameters
     )
     
-    seasonder_cs_obj <- SeaSondeR::seasonder_runMUSIC_in_FOR(seasonder_cs_obj, options = MUSIC_options)
+
+seasonder_cs_obj <- SeaSondeR::seasonder_setSeaSondeRCS_MUSIC_options(seasonder_cs_obj, MUSIC_options)
+  seasonder_cs_obj <- SeaSondeR::seasonder_runMUSIC_in_FOR(seasonder_cs_obj)
     
     # Export radial metrics to a temporary file
     rm_file <- tempfile(fileext = ".ruv")
