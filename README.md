@@ -13,6 +13,7 @@
 5. [API Endpoints](#api-endpoints)
 6. [Image Build Guide](#image-build-guide)
 7. [run.R Script Explanation](#runr-script-explanation)
+8. [Disclaimer](#disclaimer)
 
 ## Introduction
 This repository provides a Docker Image to build a container with the [SeaSondeR package](https://github.com/GOFUVI/SeaSondeR) preinstaled, along with a REST API and configuration management for the SeaSondeR package. It facilitates updating settings, processing input files, and serving computed radial metrics via a set of HTTP endpoints.
@@ -142,3 +143,7 @@ The `run.R` script is responsible for starting the REST application. It sets up 
 ## Acknowledgements
 
 This work has been funded by the HF-EOLUS project (TED2021-129551B-I00), financed by MICIU/AEI /10.13039/501100011033 and by the European Union NextGenerationEU/PRTR - BDNS 598843 - Component 17 - Investment I3.
+
+## Disclaimer
+
+This software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software.
