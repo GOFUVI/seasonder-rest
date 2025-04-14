@@ -3,7 +3,7 @@ FROM rstudio/plumber:v1.2.0
 
 COPY SeaSondeR.tar.gz /SeaSondeR.tar.gz
 
-RUN R -e "remotes::install_local('SeaSondeR.tar.gz', lib = '/usr/local/lib/R/site-library')"
+RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '0.2.6', lib = '/usr/local/lib/R/site-library')"
 
 WORKDIR /app
 
