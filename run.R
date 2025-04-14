@@ -57,6 +57,7 @@ save_configuration <- function(config, path = config_path) {
     yaml::write_yaml(config, path)
 }
 
+
 #' Update a configuration option and save changes
 #'
 #' Updates the specified configuration key with a new value and writes the updated configuration to the file.
