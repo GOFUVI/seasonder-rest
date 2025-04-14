@@ -5,6 +5,9 @@ on:
     paths:
       - Dockerfile
       - Run.R
+  repository_dispatch: 
+    types:
+      - seasonder-main-push 
 
 jobs:
   r-cmd-check:
