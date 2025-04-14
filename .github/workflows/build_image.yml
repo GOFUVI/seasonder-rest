@@ -7,7 +7,7 @@ on:
       - Run.R
   repository_dispatch: 
     types:
-      - seasonder-main-push 
+      - build 
 
 jobs:
   r-cmd-check:
