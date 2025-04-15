@@ -2,10 +2,11 @@ FROM rstudio/plumber:v1.2.0
 
 
 RUN git clone https://github.com/GOFUVI/SeaSondeR.git /tmp/SeaSondeR \
-  && Rscript -e "remotes::install_deps('/tmp/SeaSondeR', dependencies = TRUE, lib = '/usr/local/lib/R/site-library')" \
+  && cd /tmp/SeaSondeR \
+  && git checkout tags/0.2.6 \
+  && Rscript -e "remotes::install_deps('/tmp/SeaSondeR', dependencies = TRUE)" \
   && rm -rf /tmp/SeaSondeR
-
-RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', lib = '/usr/local/lib/R/site-library')"
+RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '0.2.6')"
 
 WORKDIR /app
 
