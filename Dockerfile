@@ -1,7 +1,7 @@
 FROM rstudio/plumber:v1.2.0
 
 
-RUN git clone --depth 1 https://github.com/GOFUVI/SeaSondeR.git /tmp/SeaSondeR \
+RUN git clone https://github.com/GOFUVI/SeaSondeR.git /tmp/SeaSondeR \
   && cd /tmp/SeaSondeR \
   && git checkout tags/0.2.6 \
   && Rscript -e "remotes::install_deps('/tmp/SeaSondeR', dependencies = TRUE)" \
