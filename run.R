@@ -135,9 +135,10 @@ process <- function(css_path, options){
         PPMIN = options$PPMIN, 
         PWMAX = options$PPMAX, 
         smoothNoiseLevel = options$smoothNoiseLevel,
-        discard = options$discard,
         doppler_interpolation = options$doppler_interpolation,
-        MUSIC_parameters = options$MUSIC_parameters
+        MUSIC_parameters = options$MUSIC_parameters,
+        discard_no_solution = options$discard_no_solution,
+        discard_low_SNR = options$discard_low_SNR
     )
     
 

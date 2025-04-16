@@ -35,9 +35,10 @@ declare -A OPTIONS=(
   ["PPMIN"]="5"
   ["PPMAX"]="50"
   ["smoothNoiseLevel"]="FALSE"
-  ["discard"]="low_SNR,no_solution"
   ["doppler_interpolation"]="2"
   ["MUSIC_parameters"]="40,20,2,20"
+  ["discard_no_solution"]="TRUE"
+  ["discard_low_SNR"]="TRUE"
 )
 
 # Parse options con flag -o para opciones personalizadas
