@@ -1,7 +1,7 @@
 FROM rstudio/plumber:v1.2.0
 
 
-RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', lib = '/usr/local/lib/R/site-library')"
+RUN R -e "remotes::install_github('GOFUVI/SeaSondeR', lib = '/usr/local/lib/R/site-library', ref = 'v0.2.7')"
 
 WORKDIR /app
 
