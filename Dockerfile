@@ -2,12 +2,7 @@ FROM rstudio/plumber:v1.2.0
 
 ENV SEASONDER_VERSION=v0.2.7
 
-RUN git clone https://github.com/GOFUVI/SeaSondeR.git /tmp/SeaSondeR \
-  && cd /tmp/SeaSondeR \
-  && git checkout tags/${SEASONDER_VERSION} \
-  && Rscript -e "remotes::install_deps('/tmp/SeaSondeR', dependencies = TRUE)" \
-  && rm -rf /tmp/SeaSondeR \
-  && Rscript -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '${SEASONDER_VERSION}')"
+RUN Rscript -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '${SEASONDER_VERSION}', dependencies = TRUE)"
 
 
 WORKDIR /app
