@@ -1,6 +1,6 @@
 FROM rstudio/plumber:v1.2.0
 
-ENV SEASONDER_VERSION=v0.2.7
+ENV SEASONDER_VERSION=v0.2.8
 
 RUN Rscript -e "remotes::install_github('GOFUVI/SeaSondeR', ref = '${SEASONDER_VERSION}', dependencies = TRUE)"
 
